@@ -4,15 +4,19 @@ class Solution(object):
         :type height: List[int]
         :rtype: int
         """
-        count = 0
-        temp = 0
-        i = 0
-        while i > len(height)-1:
-            cur = i+1
-            while height[i] > height[cur] and cur < len(height)-1:
-                temp += (height[i] - height[cur])
-                cur += 1
-                # if height[i] <= height[cur]:
-                #     count += temp
-            i = cur
-            print(height[i],count)
+        if not height:
+            return 0
+
+        l, r = 0, len(height) - 1
+        leftMax, rightMax = height[l], height[r]
+        res = 0
+        while l < r:
+            if leftMax < rightMax:
+                l += 1
+                leftMax = max(leftMax, height[l])
+                res += leftMax - height[l]
+            else:
+                r -= 1
+                rightMax = max(rightMax, height[r])
+                res += rightMax - height[r]
+        return res
